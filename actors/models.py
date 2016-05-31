@@ -313,6 +313,10 @@ class Actor(User):
 
   objects = ActorManager()
   
+  class Meta:
+    verbose_name = 'Actor'
+    verbose_name_plural = 'Actors'
+
   def clean(self):
     self.first_name = remove_none(self.first_name)
     self.last_name = remove_none(self.last_name)

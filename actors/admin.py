@@ -23,7 +23,8 @@ class ActorAdmin(admin.ModelAdmin):
 
 
 
-admin.site.unregister(User)
+# admin.site.unregister(User)
+# admin.site.register(User, UserAdmin)  
 admin.site.register(Actor,ActorAdmin)
 admin.site.register(ActorReview)
 admin.site.register(ActorRating)
