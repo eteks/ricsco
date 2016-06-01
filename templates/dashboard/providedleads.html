@@ -1,0 +1,109 @@
+{% load i18n %}
+
+<a href="/dashboard/providedlead/" onClick="_gaq.push('send', 'pageview', {'page': '/dashboard/providedlead/tab-providedlead','title': 'tab-providedlead'});">{% trans "Provided leads" %}</a>
+{% if usernotseller %}
+<form id="seller_registration" method="post" action="." class="seller_registration_form">
+{% csrf_token %}
+<h2>{% trans "Lead information" %}</h2>
+<label>{% trans "What type of leads are you generating" %}:</label>
+<div class="custom_select fl seller_registration_form_custom_select">
+	<select id="gen_method" name="lead_type" data-default="Drop Down" class="other_custom_select_value_act">
+		<option value="" name ="">{% trans "Select" %}</option>
+		<option value="online">{% trans "Online" %}</option>
+		<option value="telemarketing">{% trans "Telemarketing" %}</option>
+		<option value="other">{% trans "Other" %}</option>
+		<option value="mix">{% trans "Mix" %}</option>
+	</select>
+</div><!-- seller_registration_form_custom_select -->
+
+<div class="specify_act other">
+	<label>{% trans "What categories of leads are you generating: (Specify)" %}</label>
+	<textarea value="" name="categories"></textarea>
+</div>
+<label>{% trans "What volumes of leads can you provide" %}:</label>
+<div class="custom_select fl seller_registration_form_custom_select">
+	<select id="gen_method" name="lead_volume" data-default="Drop Down" class="custom_select_value_act">
+		<option value="" name ="">{% trans "Select" %}</option>
+		<option value="1-10">1-10/{% trans "month" %}</option>
+		<option value="11-100">11-100/{% trans "month" %}</option>
+		<option value="100-500">100-500/{% trans "month" %}</option>
+		<option value="501-1000">501-1000/{% trans "month" %}</option>
+		<option value="1001-2000">1001-2000/{% trans "month" %}</option>
+		<option value="2000">2000 > /{% trans "month" %}</option>
+	</select>
+</div><!-- seller_registration_form_custom_select -->
+<div class="specify_2_act online">
+	<label>{% trans "From what sites are you generating leads: (Specify)" %}</label>
+	<textarea value="" name="sites"></textarea>
+</div>
+
+<h2>{% trans "Contact information" %}</h2>
+<label>{% trans "Company name" %}:</label>
+<input type="text" value="{% if actor.company.name %}{{actor.company.name}}{% endif %}" name="company_name" class="input_fields company_field" maxlength='256' />
+<label>{% trans "Website" %}:</label>
+<input type="text" value="{% if actor.company.website %}{{actor.company.website}}{% endif %}" name="website" class="input_fields" maxlength='200' />
+<div class="company_contact_fileds">
+	<div class="fl contact_person">
+		<label>{% trans "Contact person" %}:</label>
+		<input type="text" value="{% if actor.first_name %}{{actor.first_name}}{% endif %}" name="contact_person" class="input_fields" maxlength='30' />
+	</div>
+	<div class="fl phone_number">
+		<label>{% trans "Phone number" %}:</label>
+		<input type="text" value="{% if actor.company.phone_number %}{{actor.company.phone_number}}{% endif %}" name="phone_number" class="input_fields" maxlength='32' />
+	</div>
+	<div class="clear_both"></div>
+</div><!-- company_contact_fileds -->
+<label>{% trans "Email" %}:</label>
+<!-- <input type="text" value="{{request.user}}" name="email" class="input_fields email_field" maxlength='75' /> -->
+<input type="text" value="kalairkv.mca14@gmail.com" name="email" class="input_fields email_field" maxlength='75' />
+<div class="submit_holder">
+	<input type="submit" class="btn blue_btn fl" value="{% trans 'Submit' %}" name ="seller_registration" />
+	<div class="clear_both"></div>
+	<div class="t_c_holder fl">
+		<input class="fl addlead_submit_enable_act" type="checkbox" name="t_c" id="t_c" checked="checked">
+		<label class="fl termsofservice_act" for="t_c">{% trans "I accept Ricsco" %} <a class="link_blue underline" href="javascript:void(0);">{% trans "Terms of service" %}</a></label>
+	</div>
+	<!-- t_c_holder -->
+	<div class="clear_both"></div>
+</div><!-- submit_holder -->
+</form>
+{% endif %}
+{% if userseller == 'actor not seller' %}
+<table>
+	<thead class="tab_bar">
+		<tr role="row">
+			<th rowspan="1" colspan="1" style="text-align: left; padding:0px 0px 0px 30px;">{% trans "Request submitted" %}</th>
+		</tr>
+	</thead>
+</table>
+{% endif %}
+{% if userseller  == 'actor not seller' %}
+<div class="thankyou_msg">
+	<h4>{% trans "Thanks your request has been submitted successfully" %} <span>{% trans "We will get in touch with you as soon as possible" %}</span>.</h4>
+	<div class="shadow_cover">
+		<div class="call_us_holder">
+			<div class="contact_no_block fl">
+				<span>{% trans "Questions" %}? {% trans "Feel free to call us" %} </span>
+				<h3><b>{% trans "+ 46 (0)8 551 194 10" %}</b></h3>
+			</div><!-- contact_no_block -->
+			<div class="clear_both"></div>
+		</div><!-- call_us_holder -->
+	</div><!--shadow_cover-->
+</div><!--thankyou_msg-->
+{% endif %}
+
+{% if no_result_found %}
+<!--<div class="empty_list">
+<h2>{% trans "No leads found" %}</h2>
+</div>--><!-- empty_list -->
+<div class="empty_list">
+	<!-- <h2> {% trans "Hi" %}, {{actor.first_name|capfirst}}{% if actor.last_name %} {{actor.last_name|capfirst}}{% endif %}! -->
+	<h2> {% trans "Hi" %}, Kalai<!-- {{actor.first_name|capfirst}}{% if actor.last_name %} {{actor.last_name|capfirst}}{% endif %}! -->
+	<br>
+	{% trans "You have not provided any leads yet" %}.
+	<br>
+	{% trans   "Start providing your first lead" %}.
+	 </h2>
+	<a class="btn empty_list_btn"  href="/dashboard/add_new_leads/">{% trans "Create" %}</a>
+</div><!-- empty_list -->
+{% endif %}
