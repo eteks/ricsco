@@ -10,9 +10,25 @@
     padding-right: 4px;
     padding-top: 4px;
 }
-#tabs_swap {
+.sidebar_links ul {
     background-color: gray;
-    line-height: 30px;
-    list-style: none;
-    max-width: 130px;
+    line-height: 32px;
+    list-style: outside none none;
+    text-decoration: none;
+    max-width: 112px;
+    padding: 10px 28px;
+}
+a {
+    text-decoration: none;
+}
+.error_message {
+    color: red;
+}
+.keep_login {
+    color : #000;
+}
+.signup {
+    left: 200px;
+    position: relative;
+    top: 150px;
 }

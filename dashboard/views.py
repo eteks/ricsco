@@ -25,18 +25,26 @@ from django.utils.http import urlquote
 from django.views.decorators.csrf import csrf_exempt
 from actors.models import *
 
-logger = logging.getLogger('myapplog')
 
+logger = logging.getLogger('myapplog')
+def start_new(request): 
+  print "test"
+  return render_to_response('dashboard/joinuslanding_new.html',
+    context_instance=RequestContext(request))
        
-@login_required
-def start_new(request):
-    if request.user.is_superuser:
-        logout(request)
-        return HttpResponseRedirect('/')
+# @login_required
+# def start_new(request):
+#     if request.user.is_superuser:
+        # logout(request)
+#         return HttpResponseRedirect('/')
         
    
  
     
-    if 'seller_registration' in request.POST:
-               
-        return render_to_response('dashboard/joinuslanding_new.html',context_instance=RequestContext(request))
+#     if 'seller_registration' in request.POST:
+     
+#         return render_to_response('dashboard/joinuslanding_new.html',context_instance=RequestContext(request))
+
+# def logout_view(request):
+#     logout(request)
+#     return HttpResponseRedirect("/")

@@ -6,8 +6,8 @@
             </div>
         </h1>
         <div class="header_login fr">
-            <div class=" span3 fl">
-                
+            <div class=" span3 fl error_message">
+               
                 <form action="{% url 'login_view' %}" method="post">
                     {% csrf_token %}
                     <input type="text" name="auth_name" value="{% if fx_cookies %}{{fx_cookies}}{% endif %}" placeholder="{% trans "Email" %}" class="header_login_input text_val_act" maxlength="75" />
@@ -26,10 +26,11 @@
 
                         <input type="checkbox" name="rememberme" id="rememberme" class="fl" checked='checked'/>
 
-                        <label for="rememberme" class="fl">{% trans "Keep me signed in" %} </label>
+                        <label for="rememberme" class="fl keep_login">{% trans "Keep me signed in" %} </label>
 
                     </div><!-- remember_holder -->
                     <input type="submit" class="fl btn" name='nav_login' value="{% trans 'Sign in' %}"/>
+                     <a href={% url 'signup_view' %}>  <input type="button" class="fl btn signup" name='nav_signup' value="{% trans 'Sign up' %}"/>  </a>
                 </form>
             </div><!-- login_holder -->
 
