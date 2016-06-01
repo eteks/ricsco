@@ -34,11 +34,11 @@ def start_new(request):
     context_instance=RequestContext(request))
        
 
-# @csrf_exempt
-# @login_required
+@csrf_exempt
+@login_required
 def providedlead(request):
-    # actors = request.user.actor
-    actors = Actor.objects.get(username="kalairkv.mca14@gmail.com")
+    actors = request.user.actor
+    # actors = Actor.objects.get(username="kalairkv.mca14@gmail.com")
     if not actors.is_sellerregistered:
         
         if 'seller_registration' in request.POST:
@@ -53,8 +53,8 @@ def providedlead(request):
             current_site = get_current_site(request)
             
             sellerregistered = Tempdata()
-            # sellerregistered.user_id = request.user
-            sellerregistered.user_id = actors.email
+            sellerregistered.user_id = request.user
+            # sellerregistered.user_id = actors.email
             sellerregistered.is_send = True
             sellerregistered.save()
             # userseller = 'actor not seller'
@@ -85,8 +85,8 @@ def providedlead(request):
             #     except Exception, e:
             #         logging.error('Not sent sellerregistration email (@providedlead) %s' % e)
         
-        # if Tempdata.objects.filter(user_id=request.user.email, is_send=True).exists():
-       	if Tempdata.objects.filter(user_id=actors.email, is_send=True).exists():
+        if Tempdata.objects.filter(user_id=request.user.email, is_send=True).exists():
+       	# if Tempdata.objects.filter(user_id=actors.email, is_send=True).exists():
             userseller = 'actor not seller'
             usernotseller = None
         else:

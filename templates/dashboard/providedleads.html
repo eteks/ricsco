@@ -97,8 +97,8 @@
 <h2>{% trans "No leads found" %}</h2>
 </div>--><!-- empty_list -->
 <div class="empty_list">
-	<!-- <h2> {% trans "Hi" %}, {{actor.first_name|capfirst}}{% if actor.last_name %} {{actor.last_name|capfirst}}{% endif %}! -->
-	<h2> {% trans "Hi" %}, Kalai<!-- {{actor.first_name|capfirst}}{% if actor.last_name %} {{actor.last_name|capfirst}}{% endif %}! -->
+	<h2> {% trans "Hi" %}, {{request.user.first_name|capfirst}}{% if request.user.last_name %} {{request.user.last_name|capfirst}}{% endif %}!
+	
 	<br>
 	{% trans "You have not provided any leads yet" %}.
 	<br>
