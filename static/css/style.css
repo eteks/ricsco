@@ -1,0 +1,12 @@
+.submit_button {
+	background-color: grey;
+    border-bottom-left-radius: 11px;
+    border-bottom-right-radius: 11px;
+    border-top-left-radius: 11px;
+    border-top-right-radius: 11px;
+    color: #fff;
+    padding-bottom: 4px;
+    padding-left: 4px;
+    padding-right: 4px;
+    padding-top: 4px;
+}

@@ -1,0 +1,13 @@
+ {% load staticfiles %}
+ <html>
+ 	<head> 
+ 		<title>{% block title-section%} Ricsco {% endblock %}</title>      
+		<link href="{% static "css/style.css" %}" rel="stylesheet" media="screen">
+	</head>
+	<body>
+		<h2> RICSCO </h2>
+		<div class="login_template">
+			{% include "login.html" %}
+		</div>
+	</body>
+</html>

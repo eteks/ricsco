@@ -1,0 +1,51 @@
+{% load i18n %}
+<div class="navbar-inner">
+    <div class="container wrapper no_padding">
+        <h1><div class='xmas-wrapper fl'>
+            <!-- <a href="javascript:void(0);" class="xmas-logo xmas-logo-{{request.LANGUAGE_CODE}}"></a> -->
+            </div>
+        </h1>
+        <div class="header_login fr">
+            <div class=" span3 fl">
+                
+                <form action="{% url 'login_view' %}" method="post">
+                    {% csrf_token %}
+                    <input type="text" name="auth_name" value="{% if fx_cookies %}{{fx_cookies}}{% endif %}" placeholder="{% trans "Email" %}" class="header_login_input text_val_act" maxlength="75" />
+                    <input type="password" name="auth_paw" placeholder="{% trans 'Password' %}" value="" class="header_login_input" />
+
+                    <div class="clear_both"> </div>
+                    
+                    {% if request.REQUEST.st %}
+                    {% for message in messages %}
+                    {{ message }}
+                    {% endfor %}
+                    {% endif %}
+                    
+                    <div class="remember_holder fl">
+                        <input type="hidden" name="next" value="{{request.path}}{% if request.REQUEST.q %}?{{request.GET.urlencode}}{% endif %}" />
+
+                        <input type="checkbox" name="rememberme" id="rememberme" class="fl" checked='checked'/>
+
+                        <label for="rememberme" class="fl">{% trans "Keep me signed in" %} </label>
+
+                    </div><!-- remember_holder -->
+                    <input type="submit" class="fl btn" name='nav_login' value="{% trans 'Sign in' %}"/>
+                </form>
+            </div><!-- login_holder -->
+
+            <div class="login_seperator fl"> </div><!-- login_seperator -->
+
+            {% if not user.is_authenticated %}
+            <div class="sn_login_holder fl">
+
+               
+                <div class = "clear_both"></div>
+                <a id="forgotpassword_act" class='forgotpassword'>{% trans "Forgot your password" %}?</a>
+            </div><!-- sn_login_holder -->
+            {% endif %}
+
+            <div class="clear_both"> </div>
+        </div><!-- header_login-->
+        <div class="clear_both"> </div>
+    </div><!-- container -->
+</div><!-- navbar-inner -->

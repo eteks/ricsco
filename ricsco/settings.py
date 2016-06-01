@@ -37,8 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'actors',
-    'leads'
+    'actors','ranks','reviews','core','ricsco','leads'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -57,7 +56,7 @@ ROOT_URLCONF = 'ricsco.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -66,11 +65,17 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
-        },
+        },  
     },
 ]
 
-WSGI_APPLICATION = 'ricsco.wsgi.application'
+STATIC_URL = '/static/'
+
+STATICFILES_DIRS = (
+    os.path.abspath(BASE_DIR + '/static/'),
+)
+
+# WSGI_APPLICATION = 'ricsco.wsgi.application'
 
 
 # Database
@@ -82,6 +87,8 @@ WSGI_APPLICATION = 'ricsco.wsgi.application'
 #         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 #     }
 # }
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/dashboard/start/'
 DATABASES = {
    'default': {
       'ENGINE': 'django.db.backends.mysql',

@@ -11,20 +11,23 @@ class ActorAdmin(admin.ModelAdmin):
     list_filter = ('is_staff','company')
     # readonly_fields = ('first_name','email')
     actions = ['delete_selected', 'export_csv']
-    fieldsets = [
-      ('Basics', {
-          'fields': ['email', ]
-      }),
-         ('Name', {
-          'fields': ['first_name', 'last_name','is_staff','company']
-      }),
+  #   fieldsets = [
+  #     ('Basics', {
+  #         'fields': ['email', ]
+  #     }),
+  #        ('Name', {
+  #         'fields': ['first_name', 'last_name','is_staff','company']
+  #     }),
       
-  ]
+  # ]
 
 
 
 # admin.site.unregister(User)
+<<<<<<< HEAD
+=======
 # admin.site.register(User, UserAdmin)  
+>>>>>>> 8d4ad1e72d6965aa6345f14280d9d7cef8e50d42
 admin.site.register(Actor,ActorAdmin)
 admin.site.register(ActorReview)
 admin.site.register(ActorRating)

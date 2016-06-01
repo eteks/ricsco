@@ -1,0 +1,4 @@
+ <h2> Welcome </h2>
+ <form action="{% url 'logout_view' %}" method="post">
+                    {% csrf_token %} <a href="{{request.path}}">Logout{{request.user}}</a>
+                </form>

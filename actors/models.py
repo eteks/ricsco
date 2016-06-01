@@ -329,16 +329,15 @@ class Actor(User):
   def save(self, force_insert=False, force_update=False):
     self.clean()
     self.username = self.email
-    if not self.currency:
-      currency = settings.BASE_CURRENCY
+    # if not self.currency:
+    #   currency = settings.BASE_CURRENCY
+      # if self.language and self.language in LANGUAGE_CURRENCIES:
+      #   currency = LANGUAGE_CURRENCIES[self.language]
+      # elif self.address and self.address.country and \
+      #   self.address.country in COUNTRY_CURRENCIES:
+      #   currency = COUNTRY_CURRENCIES[self.address.country]
 
-      if self.language and self.language in LANGUAGE_CURRENCIES:
-        currency = LANGUAGE_CURRENCIES[self.language]
-      elif self.address and self.address.country and \
-        self.address.country in COUNTRY_CURRENCIES:
-        currency = COUNTRY_CURRENCIES[self.address.country]
-
-      self.currency = currency
+      # self.currency = currency
 
     if not self.lockout_times:
       self.lockout_times = 0
