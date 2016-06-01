@@ -1,4 +1,170 @@
- <h2> Welcome </h2>
- <form action="{% url 'logout_view' %}" method="post">
-                    {% csrf_token %} <a href="{{request.path}}">Logout{{request.user}}</a>
-                </form>
+    {% load staticfiles %}
+   {% load i18n %}
+    <html>
+ 	<head> 
+ 		<title>{% block title-section%} Ricsco {% endblock %}</title>      
+		<link href="{% static "css/style.css" %}" rel="stylesheet" media="screen">
+	</head>
+	<body>
+<div class="fl dashboard_content_wrapper">
+	<div class="joinus_landing_page">
+		<div class="joinus_header">
+			<h3> {% csrf_token %} <a href="{{request.path}}">Logout  {{request.user}}</a></h3>
+			<!--<p><strong>Now you can start trade leads!</strong><br>-->
+				
+				<p>
+					To buy leads you can start adding money on your<a href="/dashboard/accountdetails/"> account</a> 
+				</p>
+		</div><!--joinus_header-->
+			
+	   <div id="tabContainer">
+	    <div class="tabs_content_holder">
+	      	<ul id="tabs_swap">	      	
+	      		{% if seller_registration %}
+			        <li id="tab_buy_leads">Buy leads</li>
+			        <li id="tab_request_leads">Request leads</li>
+			        <li id="tab_sell_leads" class="tabActiveHeader">Sell leads</li>
+	      		{% else %}
+			        <li id="tab_buy_leads" class="tabActiveHeader">Buy leads</li>
+			        <li id="tab_request_leads">Request leads</li>
+			        <li id="tab_sell_leads">Sell2 leads</li>
+	      		{% endif %}
+		    </ul>
+	      <div class="clear_both"></div>
+	    </div>
+	    <div class="tabscontent">
+	      <div class="tabs_act tab_buy_leads" {% if seller_registration %} style="display:none;"{% endif %}>
+	        <div class="welcome_page_tab fl">
+		        <h2>Buy leads</h2>
+		       
+		        <a class="btn green" href="/search">Start buying</a>
+		        
+		        <div class="callus_block ">
+		        	<div class="top_bottom_shadow"></div>	
+				</div><!-- callus_block -->
+	        </div><!-- welcome_page_tab  -->
+	        
+	        <div class="buy_leads_tab_col_r fl">
+	        	<div class="latest_leads_holder">
+	        		<div class="latest_leads_holder_content">
+	        			<h2><a href="/leads/{{latest_lead.id}}">{{latest_lead.title|truncatechars:35}}</a></h2>
+		      			<div class="fl lead_countdown"><h3>{{latest_lead.available}}<span style="display: inline;">/{{latest_lead.total}}</span></h3><span>{% if lead.available == 1 %}Lead left{% else %} Leads left{% endif %}</span></div> 
+			      		<div class="clear_both"></div>
+      		           </div><!-- rating_holder -->
+	        		</div><!-- latest_leads_holder_content -->
+        		</div><!-- latest_leads_holder -->
+	        </div><!-- buy_leads_tab_col_r -->
+	        <div class="clear_both"></div>
+	      </div> <!-- tabpage_1 -->
+	      	      
+	      <div class="tabs_act tab_request_leads">
+	         <div class="welcome_page_tab fl">
+		        <h2 class="requested_lead_heading">Request leads!</h2>
+		       
+			        <p>
+			        	Start by adding a lead request to our marketplace and the lead generation will start work for you. As soon as leads matching your request is generated you will get an e-mail notification and can decide to buy the lead or not.
+			        </p>
+			        <a class="btn" href="/dashboard/requestedleads/add/">Request</a>
+		        
+		        <div class="callus_block ">
+		        <div class="top_bottom_shadow"></div>	
+						<div class="call_us_holder">
+							<div class="contact_no_block fl">
+								<span>Questions?  Feel free to call us  </span>
+								<h3>
+									<b>+ 46 (0)8 551 194 10 </b>
+								</h3>
+							</div><!-- contact_no_block -->	
+							
+							<div class="clear_both"></div>
+						</div><!-- call_us_holder -->
+					</div><!-- callus_block -->
+	        </div><!-- welcome_page_tab  -->
+	        
+	        <div class="requested_leads_tab_col_r_{{request.LANGUAGE_CODE}} fl">
+	        	
+	        </div><!-- requested_leads_tab_col_r -->
+	        <div class="clear_both"></div>
+	      </div><!-- tabpage_2 -->
+	      
+	      <div class="tabs_act tab_sell_leads" {% if seller_registration %} style="display:block;"{% endif %}>
+	       	{% if seller_registration %}
+    		<div class="thankyou_msg">
+    			<h4>Thanks your request has been submitted successfully<span>We will get in touch with you as soon as possible</span>.</h4>
+    			<div class="shadow_cover">
+					<div class="call_us_holder">
+						<div class="contact_no_block fl">
+							<span>Questions? Feel free to call us </span>
+							<h3>
+								<b>+ 46 (0)8 551 194 10</b>
+							</h3>
+						</div><!-- contact_no_block -->	
+						<div class="clear_both"></div>
+					</div><!-- call_us_holder -->
+				</div><!--shadow_cover-->
+    		</div><!--thankyou_msg-->
+        	{% else %}
+	        <div class="welcome_page_tab design_control fl">
+	        	<form id="seller_registration" method="post" action="." class="seller_registration_form">{% csrf_token %}
+	        		<div class="lead_information_fields">
+	        			<div class="head_seller">
+			        		<h3>Become a Fixido lead seller</h3>
+			        		<p>If you have leads you want to sell using the Fixido market place you need to become a lead seller. You can apply using this form and we get back to you as soon as possible.</p>	        				
+	        			</div><!--head_seller-->		        			
+		        		<div class="lead_information_heading">	
+		        			<span class="fl"></span><h2 class="fl">Lead information</h2>
+		        			<div class="clear_both"></div>
+		        		</div><!-- lead_information_heading -->	
+	        			<label> What type of leads are you generating :</label>
+	        			
+	        			<div class="custom_select fl seller_registration_form_custom_select">
+							<div class="select">
+								<p class="country">Select</p>
+								<code class="custom_drop_nav"></code>
+							</div><!-- select -->
+							<select id="gen_method" name="lead_type" data-default="Drop Down" class="other_custom_select_value_act">
+								<option value="" name =""> Select </option>
+								<option value="online"> Online </option>
+								<option value="telemarketing"> Telemarketing </option>
+								<option value="other"> Other</option>
+								<option value="mix">Mix</option>
+							</select>						
+						</div><!-- seller_registration_form_custom_select -->
+	        		
+		        		<div class="specify_act other">
+			        		<label>What categories of leads are you generating: (Specify)</label>
+			        		<textarea value="" name="categories"></textarea>
+		        		</div>
+		        		
+		        		<label> What volumes of leads can you provide :</label>
+		        		<div class="custom_select fl seller_registration_form_custom_select">
+								<div class="select">
+									<p class="country"> Select </p>
+									<code class="custom_drop_nav"></code>
+								</div><!-- select -->
+								<select id="gen_method" name="lead_volume" data-default="Drop Down" class="custom_select_value_act">
+									<option value="" name =""> Select </option>
+									<option value="1-10">1-10/ month</option>
+									<option value="11-100">11-100/ month</option>
+									<option value="100-500">100-500/ month</option>
+									<option value="501-1000">501-1000/month</option>
+									<option value="1001-2000">1001-2000/ month</option>
+									<option value="2000">2000 > / month </option>
+								</select>						
+						</div><!-- seller_registration_form_custom_select -->
+						
+		        		      			
+	        		</div><!-- lead_information_fields -->
+	        	</form>
+	        </div><!-- welcome_page_tab -->
+	       {% endif %}
+	        <div class="clear_both"></div>
+	      </div><!-- tabpage_3 -->
+	    </div><!-- tabContainer -->
+	  </div><!--joinus_landing_page-->
+    </div><!-- dashboard_content_wrapper -->	
+	<div class="clear_both"></div>
+ 
+</div>
+	</body>
+</html>

@@ -220,12 +220,12 @@ class CompanyAbstract(models.Model):
   def __unicode__(self):
     return self.name if self.name else ''
 
-  def clean(self):
-    self.name = remove_none(self.name)
-    self.description = remove_none(self.description)
-    self.phone_number = remove_none(self.phone_number)
-    self.alt_phone_number = remove_none(self.alt_phone_number)
-    self.email = remove_none(self.email)
+  # def clean(self):
+  #   self.name = remove_none(self.name)
+  #   self.description = remove_none(self.description)
+  #   self.phone_number = remove_none(self.phone_number)
+  #   self.alt_phone_number = remove_none(self.alt_phone_number)
+  #   self.email = remove_none(self.email)
   
   def save(self, *args, **kwargs):
     self.clean()
@@ -317,14 +317,14 @@ class Actor(User):
     verbose_name = 'Actor'
     verbose_name_plural = 'Actors'
 
-  def clean(self):
-    self.first_name = remove_none(self.first_name)
-    self.last_name = remove_none(self.last_name)
-    self.language = remove_none(self.language)
-    self.description = remove_none(self.description)
-    self.phone_number = remove_none(self.phone_number)
-    self.alt_phone_number = remove_none(self.alt_phone_number)
-    self.email = remove_none(self.email)
+  # def clean(self):
+  #   self.first_name = remove_none(self.first_name)
+  #   self.last_name = remove_none(self.last_name)
+  #   self.language = remove_none(self.language)
+  #   self.description = remove_none(self.description)
+  #   self.phone_number = remove_none(self.phone_number)
+  #   self.alt_phone_number = remove_none(self.alt_phone_number)
+  #   self.email = remove_none(self.email)
 
   def save(self, force_insert=False, force_update=False):
     self.clean()

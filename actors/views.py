@@ -58,30 +58,33 @@ def login_view(request):
         try:
             actor = Actor.objects.get(email=username)
         except Actor.DoesNotExist:
+            print "Actor error"
             raise ValidationError(incorrect_usr_pwd, 2)
         
         if user is not None:
             if user.is_active :
                 login(request, user)
-                return render_to_response('dashboard/joinuslanding_new.html',{'username':username},context_instance=RequestContext(request))
+                print "login"
+                response = HttpResponseRedirect(settings.LOGIN_REDIRECT_URL)
+                # return render_to_response('dashboard/joinuslanding_new.html',{'username':username},context_instance=RequestContext(request))
 
             else:
+                print "not active"
                 raise ValidationError(inactive_usr_msg, 1)
             
             if not response: 
+                print "response"
+                print next
                 response = HttpResponseRedirect(request.POST['next'])
         else:
-            user = User.objects.get(email=username)       
+            user = User.objects.get(email=username)
+            print "validation error"
             raise ValidationError(incorrect_usr_pwd, 2)
     
     except ValidationError as e:
         
-        messages.add_message(request, messages.ERROR, e.messages[-1]) 
-    return render_to_response('base.html',{'username':username},context_instance=RequestContext(request))
-        
-    # redirect_url = format_redirect_url(redirect_path, query_string)
-    # response = HttpResponseRedirect(redirect_url)
-    # set_email_cookie(response, username)
+        messages.add_message(request, messages.ERROR, e.messages[-1])
+    return response
 
 def logout_view(request):
     logout(request)
