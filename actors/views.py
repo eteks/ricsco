@@ -13,7 +13,7 @@ from django.views.decorators.csrf import csrf_protect, csrf_exempt
 from django.contrib.messages import get_messages
 from django.conf import settings
 #from lockout.exceptions import LockedOut
-
+from ricsco.util import *
 from models import *
 from actors.models import *
 from django import forms
@@ -53,37 +53,43 @@ def login_view(request):
     
     response = None
     user = authenticate(username=username, password=password)
+    # print "after authenticate"
     
     try:
         try:
             actor = Actor.objects.get(email=username)
         except Actor.DoesNotExist:
-            print "Actor error"
+            # print "Actor error"
             raise ValidationError(incorrect_usr_pwd, 2)
         
         if user is not None:
             if user.is_active :
                 login(request, user)
-                print "login"
+                # print "login"
                 response = HttpResponseRedirect(settings.LOGIN_REDIRECT_URL)
                 # return render_to_response('dashboard/joinuslanding_new.html',{'username':username},context_instance=RequestContext(request))
 
             else:
-                print "not active"
+                # print "not active"
                 raise ValidationError(inactive_usr_msg, 1)
             
             if not response: 
-                print "response"
-                print next
                 response = HttpResponseRedirect(request.POST['next'])
         else:
-            user = User.objects.get(email=username)
-            print "validation error"
+            # print "same email"
+            # user = User.objects.get(email=username)
+            # print "validation error"
             raise ValidationError(incorrect_usr_pwd, 2)
     
     except ValidationError as e:
         
         messages.add_message(request, messages.ERROR, e.messages[-1])
+
+        redirect_path = request.POST['next']
+        query_string = 'st=%d' % e.code
+        redirect_url = format_redirect_url(redirect_path, query_string)
+        response = HttpResponseRedirect(redirect_url)
+   
     return response
 
 def logout_view(request):

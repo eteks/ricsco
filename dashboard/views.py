@@ -26,22 +26,13 @@ from django.views.decorators.csrf import csrf_exempt
 from actors.models import *
 from control.models import Tempdata
 
+
 logger = logging.getLogger('myapplog')
-
+def start_new(request): 
+  print "test"
+  return render_to_response('dashboard/joinuslanding_new.html',
+    context_instance=RequestContext(request))
        
-@login_required
-def start_new(request):
-    if request.user.is_superuser:
-        logout(request)
-        return HttpResponseRedirect('/')
-        
-   
- 
-    
-    if 'seller_registration' in request.POST:
-               
-        return render_to_response('dashboard/joinuslanding_new.html',context_instance=RequestContext(request))
-
 
 # @csrf_exempt
 # @login_required
@@ -275,4 +266,4 @@ def add_new_leads(request):
     #                             },context_instance=RequestContext(request))
 
     return render_to_response('dashboard/add_new_leads.html',context_instance=RequestContext(request))
-        
+
