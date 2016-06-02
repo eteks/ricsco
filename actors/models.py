@@ -99,13 +99,13 @@ class AddressAbstract(models.Model):
   class Meta:
     abstract = True
     
-  def clean(self):
-    self.street = remove_none(self.street)
-    self.postal_code = remove_none(self.postal_code)
-    self.city = remove_none(self.city)
-    self.state = remove_none(self.state)
-    self.region = remove_none(self.region)
-    self.country = remove_none(self.country)
+  # def clean(self):
+  #   self.street = remove_none(self.street)
+  #   self.postal_code = remove_none(self.postal_code)
+  #   self.city = remove_none(self.city)
+  #   self.state = remove_none(self.state)
+  #   self.region = remove_none(self.region)
+  #   self.country = remove_none(self.country)
   
   def save(self, *args, **kwargs):
     self.clean()

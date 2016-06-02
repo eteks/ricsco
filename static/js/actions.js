@@ -1,7 +1,13 @@
-
- 
 $(document).ready(function() {
- 
+     $("#phone_number").keypress(function (e) {
+     //if the letter is not digit then display error and don't type anything
+     if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+         return false;
+    }
+   });
+
+    // Let's get a new form validator
+    // Arguments: (boolean isSilent, text field error class, label error class, select error class, error display element class)
     var sfFV = new FieldValidator(false, "inputError", "labelError", "selectError");
 
     // Add all the required fields
@@ -14,19 +20,20 @@ $(document).ready(function() {
 
     // Setup the validation on submits
     $("#home_signup_form").live('submit', function(e) {
-
         if (sfFV.validate()) {
-            if ($('.signup_btn').attr('data-emailexist') == 'true') {
-                $('.email_input_act').addClass("inputError");
+            // if ($('.signup_btn').attr('data-emailexist') == 'true') {
+            //     $('.email_input_act').addClass("inputError");
 
-                $('.join_form label.error_label').show();
-                // event.preventDefault();
-                return false;
-            } else {
-                // document.banner_signup_form.submit();
-                return true;
-            }
-            // document.banner_signup_form.submit();
+            //     $('.join_form label.error_label').show();
+            //     // event.preventDefault();
+            //     return false;
+            // } else {
+            //     // document.banner_signup_form.submit();
+            //     return true;
+            // }
+            document.banner_signup_form.submit();
+            // alert ("validate");
+             return true
         } else {
             return false;
             // event.preventDefault();
@@ -35,49 +42,49 @@ $(document).ready(function() {
     
     // Setup the validation on submits
        $("#joinNow_form").live('submit', function(e) {
-	      if (sfFV.validate()) {
-	       
-	       if ($('.invite_btn').attr('data-emailexist') == 'true') {
-	      
-	       
-	       $('.email_input_act').addClass("inputError");
-	       
-	       $('.invite_form label.error_label').show();
-	       // event.preventDefault();
-	       return false;
-	       } else {
-	       // document.banner_signup_form.submit();
-	       return true;
-	       }
-	       // document.banner_signup_form.submit();
-	       } else {
-	       return false;
-	       // event.preventDefault();
-	       }
-	});
+          if (sfFV.validate()) {
+           
+           if ($('.invite_btn').attr('data-emailexist') == 'true') {
+          
+           
+           $('.email_input_act').addClass("inputError");
+           
+           $('.invite_form label.error_label').show();
+           // event.preventDefault();
+           return false;
+           } else {
+           // document.banner_signup_form.submit();
+           return true;
+           }
+           // document.banner_signup_form.submit();
+           } else {
+           return false;
+           // event.preventDefault();
+           }
+    });
        
        
        $("#joinNow_form_banner").live('submit', function(e) {
-	      if (sfFV.validate()) {
-	       
-	       if ($('.invite_btn').attr('data-emailexist') == 'true') {
-	      
-	       
-	       $('.email_input_act').addClass("inputError");
-	       
-	       $('.join_form label.error_label').show();
-	       // event.preventDefault();
-	       return false;
-	       } else {
-	       // document.banner_signup_form.submit();
-	       return true;
-	       }
-	       // document.banner_signup_form.submit();
-	       } else {
-	       return false;
-	       // event.preventDefault();
-	       }
-	});
+          if (sfFV.validate()) {
+           
+           if ($('.invite_btn').attr('data-emailexist') == 'true') {
+          
+           
+           $('.email_input_act').addClass("inputError");
+           
+           $('.join_form label.error_label').show();
+           // event.preventDefault();
+           return false;
+           } else {
+           // document.banner_signup_form.submit();
+           return true;
+           }
+           // document.banner_signup_form.submit();
+           } else {
+           return false;
+           // event.preventDefault();
+           }
+    });
        
        
        
@@ -92,26 +99,26 @@ $(document).ready(function() {
        
        
        $("#joinNow_form_banner_mob").live('submit', function(e) {
-	      if (baFV.validate()) {
-	       
-	       if ($('.invite_btn').attr('data-emailexist') == 'true') {
-	      
-	       
-	       $('.email_input_act').addClass("inputError");
-	       
-	       $('.invite_form label.error_label').show();
-	       // event.preventDefault();
-	       return false;
-	       } else {
-	       // document.banner_signup_form.submit();
-	       return true;
-	       }
-	       // document.banner_signup_form.submit();
-	       } else {
-	       return false;
-	       // event.preventDefault();
-	       }
-	});
+          if (baFV.validate()) {
+           
+           if ($('.invite_btn').attr('data-emailexist') == 'true') {
+          
+           
+           $('.email_input_act').addClass("inputError");
+           
+           $('.invite_form label.error_label').show();
+           // event.preventDefault();
+           return false;
+           } else {
+           // document.banner_signup_form.submit();
+           return true;
+           }
+           // document.banner_signup_form.submit();
+           } else {
+           return false;
+           // event.preventDefault();
+           }
+    });
     
     
     // Validation for partner registration

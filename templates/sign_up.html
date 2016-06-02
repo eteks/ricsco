@@ -1,43 +1,67 @@
  {% load staticfiles %}
-<!-- Main hero unit for a primary marketing message or call to action -->
-<div class="front_page_banner_holder banner_home">
-    <div class="position">
-        <div class="banner fl">
-            <div class="banner_signup_form fl" style="position: relative;">
-                <h2>Open free account here</h2>
-                <form action="" id='home_signup_form' method="post" enctype="multipart/form-data" class="join_form">
-                    <div class="label_holder">
-                        <label class="infield" for="fname">Name</label>
-                        <div class="clear_both"></div>
-                        <input type="text" name="fname" id="fname" value="" placeholder="" class="form_inputfileds alph_validation" maxlength='30' />
-                    </div>
-                    <div class="label_holder">
-                        <label class="infield" for="company_name">Company<label>
-                        <div class="clear_both"></div>
-                        <input type="text" value="" placeholder="" name="company_name" id="company_name" class="form_inputfileds alph_validation" maxlength='256' />
-                    </div>
-                    <div>
+ <html>
+    <head>
+        <link rel="stylesheet" href="{% static "css/style.css" %}">
+        <script  src="{% static "js/jquery-1.7.1.min.js" %}"></script>
+        <script src="{% static "js/jquery.cookie.js" %}"></script>
+        <script src="{% static "js/actions.js" %}?version={{version}}"></script>
+        <script src="{% static "js/FieldValidator.js" %}"></script>
+        <title> Signup </title>
+    </head>
+    <body>
+        <!-- Main hero unit for a primary marketing message or call to action -->
+        <div class="front_page_banner_holder banner_home">
+            <div class="position">
+                <div class="banner fl">
+                    <div class="banner_signup_form fl" style="position: relative;">
+                        <h2>Open free account here</h2>
+                        <form action="{% url 'createNewUser' %}" id='home_signup_form' method="post" enctype="multipart/form-data" class="join_form">
+                        {% csrf_token %}
+                            <div class="label_holder">
+                                <label class="infield" for="fname">Name</label>
+                                <div class="clear_both"></div>
+                                <input type="text" name="fname" id="fname" value="" placeholder="" class="form_inputfileds alph_validation" maxlength='30' />
+                            </div>
+                            <div class="label_holder">
+                                <label class="infield" for="company_name">Company</label>
+                                <div class="clear_both"></div>
+                                <input type="text" value="" placeholder="" name="company_name" id="company_name" class="form_inputfileds alph_validation" maxlength='256' />
+                            </div>
+                             <div>
+                        <label class="error_label" id='state'>
+                        {% if not request.REQUEST.lr and not request.REQUEST.st %}
+                            {% for message in messages %}
+                            {{ message }}
+                            {% endfor %}
+                            
+                            {% if errors.email_exists %}
+                            {{ errors.email_exists }}
+                            {% endif %}
+                        {% endif %}
+                        </label>
                         <div class="label_holder">
                             <label class="infield" for="email">Email</label>
                             <input type="text" id="email" placeholder="" name="email" class="form_inputfileds email_input_act" value="" onchange="sndReq(this.value);" maxlength='75' />
                         </div>
                     </div>
-                    <div class="label_holder">
-                        <label class="infield" for="phone_number">Phone number</label>
-                        <input type="text" value="" placeholder="" name="phone_number" id="phone_number" class="form_inputfileds " maxlength='32' />
+                            <div class="label_holder">
+                                <label class="infield" for="phone_number">Phone number</label>
+                                <input type="text" value="" placeholder="" name="phone_number" id="phone_number" class="form_inputfileds " maxlength='32' />
+                            </div>
+                            <div class="terms_services termsofservice_act" >
+                                <span> By signing up, you accept our</span>
+                                <a href="javascript:void(0);"> Terms of service</a>
+                            </div><!-- terms_services -->
+                            <input type="submit" name="submit"  class="btn signup_btn  banner_signup_form_send" data-emailexist ="true">
+                            <div class="clear_both"></div>
+                        </form>
                     </div>
-                    <div class="terms_services termsofservice_act" >
-                        <span> By signing up, you accept our</span>
-                        <a href="javascript:void(0);"> Terms of service</a>
-                    </div><!-- terms_services -->
-                    <input type="submit" name="submit"  class="btn signup_btn  banner_signup_form_send" data-emailexist ="true">
-                    <div class="clear_both"></div>
-                </form>
+                </div><!-- banner -->
+                <div class="clear_both"></div>
             </div>
-        </div><!-- banner -->
-        <div class="clear_both"></div>
-    </div>
-    <!-- position -->
-    <div class="clear_both"></div>
-</div>
-<!-- front_page_banner_holder -->
+            <!-- position -->
+            <div class="clear_both"></div>
+        </div>
+        <!-- front_page_banner_holder -->
+    </body>
+</html>

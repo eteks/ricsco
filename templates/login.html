@@ -10,7 +10,9 @@
                
                 <form action="{% url 'login_view' %}" method="post">
                     {% csrf_token %}
+                    <label> Email or username : </label>
                     <input type="text" name="auth_name" value="{% if fx_cookies %}{{fx_cookies}}{% endif %}" placeholder="{% trans "Email" %}" class="header_login_input text_val_act" maxlength="75" />
+                    <label> Password : </label>
                     <input type="password" name="auth_paw" placeholder="{% trans 'Password' %}" value="" class="header_login_input" />
 
                     <div class="clear_both"> </div>

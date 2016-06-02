@@ -21,14 +21,28 @@
 a {
     text-decoration: none;
 }
-.error_message {
-    color: red;
-}
 .keep_login {
     color : #000;
 }
 .signup {
-    left: 200px;
+    left: 20px;
     position: relative;
-    top: 150px;
+}
+.error_message form {
+    width: 21%;
+    color: red;
+    line-height: 35px;
+}
+.error_message form label {
+    color:#000;
+}
+.banner_signup_form form {
+    width:270px;
+}
+.inputError {
+    background: #ffdddd none repeat scroll 0 0;
+    border: 1px solid #dd4b39;
+}
+.error_label {
+    color: red;
 }
