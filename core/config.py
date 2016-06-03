@@ -1,4 +1,5 @@
 from django.utils.translation import ugettext_lazy, ugettext as _ 
+from collections import OrderedDict
 
 COUNTRIES = (           
 ('','Select'), 
@@ -268,3 +269,11 @@ LANGUAGES = (
   ('ru', _('Russian')),
   ('se', _('Spanish')), 
 )
+
+# All supported currencies
+CURRENCIES = (
+  ('INR', 'INR'),
+)
+
+COUNTRIES_DICT = OrderedDict(COUNTRIES)
+CURRENCIES_DICT = OrderedDict(CURRENCIES)

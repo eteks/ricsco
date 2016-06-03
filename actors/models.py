@@ -6,7 +6,7 @@ from django.db.models.signals import pre_save, post_save
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
 # from django.conf import settings
-
+from actors.templatetags import ricsco_tags
 from core.config import COUNTRIES, LANGUAGES
 from reviews.models import Rating, Review
 from ranks.models import Ranking
@@ -164,7 +164,7 @@ class AddressAbstract(models.Model):
     if self.region and self.city.lower() != self.region.lower():
       result.append(self.region)
     if self.country:
-      result.append(fixido_tags.country_name(self.country))
+      result.append(ricsco_tags.country_name(self.country))
     return ', '.join(result)
 
 class ActorAddress(AddressAbstract):
