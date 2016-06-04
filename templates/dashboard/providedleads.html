@@ -1,8 +1,17 @@
 {% load static from staticfiles %}
 {% load i18n %}
-
+<html>
+<head> 
+	<title>{% block title-section%} Ricsco {% endblock %}</title>      
+<link href="{% static "css/style.css" %}" rel="stylesheet" media="screen">
+<script src="{% static "js/jquery-1.7.1.min.js" %}"></script>
+<script src="{% static "js/FieldValidator.js" %}"></script>
+<script src="{% static "js/jquery.cookie.js" %}"></script>
+<script src="{% static "js/jquery.ui.datepicker.js" %}"></script>
+<script src="{% static "js/actions.js" %}?version={{version}}"></script>
+</head>
+<body>
 <a href="/dashboard/providedlead/" onClick="_gaq.push('send', 'pageview', {'page': '/dashboard/providedlead/tab-providedlead','title': 'tab-providedlead'});">{% trans "Provided leads" %}</a>
-<a class="btn empty_list_btn"  href="/dashboard/add_new_leads/">{% trans "Add" %}</a>
 {% if usernotseller %}
 <form id="seller_registration" method="post" action="." class="seller_registration_form">
 {% csrf_token %}
@@ -104,82 +113,103 @@
 	<br>
 	{% trans "You have not provided any leads yet" %}.
 	<br>
-	{% trans   "Start providing your first lead" %}.
+	{% trans  "Start providing your first lead" %}.
 	 </h2>
 	<a class="btn empty_list_btn"  href="/dashboard/add_new_leads/">{% trans "Create" %}</a>
 </div><!-- empty_list -->
 {% endif %}
 
+<div class="funct_menu">
+	<ul {% if usernotseller %}style="display: none !important;"{% endif %}>
+		{% if userseller == 'actor seller' %}
+		<li class="add">
+			<a href="/dashboard/add_new_leads/">{% trans "Add" %}</a>
+		</li>
+		{% else %}
+		<li class="add gry_out">
+			{% trans "Add" %}
+		</li>
+		{% endif %}
+		<li class="add edit_list" style="display:none;">
+			<a class="edit_lead_link gry_out">{% trans "Edit" %}</a>
+		</li>
+		<li class="add change_status gry_out" style="display:none;">
+			{% trans "Change status" %}
+		</li>
+		<li class="providelead_delete add first gry_out" style="display:none;">
+			{% trans "Delete" %}
+		</li>
+	</ul>
+</div><!--funct_menu-->
+
 {% if providedlead %}
-				<div style="position: relative">
-					<table id = "providedlead_table">
-						<thead class="tab_bar">
-							<tr role="row">	
-								<th rowspan="1" colspan="1">
-								<div class="sort_param" id="title" {% if next_sorting_title %}alt="{{next_sorting_title}}"{% else %}alt="asc"{% endif %} > 
-									<span class="fl">{% trans "Lead" %}</span><span {% if sort_order_title == 'asc'%}class="sorting_top"{% elif sort_order_title == 'desc' %}class="sorting_bottom"{% else %}class=""{% endif %} style=""></span>
-								</div></th>
-								<th class="" rowspan="1" colspan="1">
-								<div class="sort_param" id="leads_left" {% if next_sorting_leadsleft %}alt="{{next_sorting_leadsleft}}"{% else %}alt="asc"{% endif %}>
-									<span class="fl" {% if request.LANGUAGE_CODE == 'sv' %} style=" min-width: 75px;" {% endif %}>{% trans "Leads left" %}</span><span {% if sort_order_leadsleft == 'asc'%}class="sorting_top"{% elif sort_order_leadsleft == 'desc' %}class="sorting_bottom"{% else %}class=""{% endif %} style=""></span>
-								</div></th>
-								<th class="" rowspan="1" colspan="1">
-								<div class="sort_param" id="leads_id" {% if next_sorting_id %}alt="{{next_sorting_id}}"{% else %}alt="asc"{% endif %}>
-									<span class="fl">{% trans "Id" %}</span><span {% if sort_order_id == 'asc'%}class="sorting_top"{% elif sort_order_id == 'desc' %}class="sorting_bottom"{% else %}class=""{% endif %} style=""></span>
-								</div></th>
-								<th class="" rowspan="1" colspan="1">
-								<div class="sort_param" id="created" {% if next_sorting_date %}alt="{{next_sorting_date}}"{% else %}alt="asc"{% endif %}>
-									<span class="fl">{% trans "Date" %}</span><span {% if sort_order_date == 'asc'%}class="sorting_top"{% elif sort_order_date == 'desc' %}class="sorting_bottom"{% else %}class=""{% endif %} style=""></span>
-								</div></th>
-								<th class="" rowspan="1" colspan="1">
-								<div class="sort_param" id="lead_status" {% if next_sorting_status %}alt="{{next_sorting_status}}"{% else %}alt="asc"{% endif %}>
-									<span class="fl">{% trans "Status"%}</span><span {% if sort_order_leadstatus == 'asc'%}class="sorting_top"{% elif sort_order_leadstatus == 'desc' %}class="sorting_bottom"{% else %}class=""{% endif %} style=""></span>
-								</div></th>
-								<th class="" rowspan="1" colspan="1">
-								<div class="sort_param" id="lead_price" {% if next_sorting_price %}alt="{{next_sorting_price}}"{% else %}alt="asc"{% endif %}>
-									<span class="fl">{% trans "Price"%}</span><span {% if sort_order_price == 'asc'%}class="sorting_top"{% elif sort_order_price == 'desc' %}class="sorting_bottom"{% else %}class=""{% endif %} style=""></span>
-								</div></th>
-								<th class="" rowspan="1" colspan="1">
-								<div class="">
-									<input id="delete_all" type="checkbox" class="mySelectAll" name="list" value="">
-								</div></th>
-							</tr>
-						</thead>
-						
-						<tbody>
-							{% for provided in providedlead  %}
-							<tr class="lead_link">
-								<td class="link" title="{{provided.lead.title}}"><a href="">{{ provided.lead.title|truncatechars:35  }}</a></td>
-								<td class="cols2">{{ provided.lead.available }}/{{ provided.lead.total }}</td>
-								<td class="cols3">{{ provided.lead.id }}</td>
-								<td class="cols3">{{ provided.lead.created|date:"Y-m-d" }}</td>
-								<td class="cols3 lead_status">
-								{% if provided.lead.active %}
-									{% trans provided.lead.get_status_display %}
-								{% else %}
-								      {% if provided.lead.get_inactive_reason_display %}
-									{% trans provided.lead.get_inactive_reason_display %}
-								      {% endif %}
-								{% endif %}
-								</td>
-								<td class="cols3">{{provided.lead.price_currency}} {{provided.lead.price_currency|upper}}</td>
-								<td>
-								<input type="hidden" name ="lead_id"  value="" />
-								</a>
-								{% if provided.lead.active %}
-								<input type="checkbox" value="{{provided.lead_id}}" data-leadeditlink="
-								" name="delete" class="checkbox_edit_act edit_lead_url_act">
-								{% else %}
-								<img src="{% static "img/active_icon.png"%}?version={{version}}" />
-								{% endif %}
-								</td>
-							</tr>
-						 {% endfor %}
-						</tbody>
-						
-					</table>
-					
-				</div><!--for showing help text-->
-				
-				<div class="clear_both"></div>
-				{% endif %}
+<div style="position: relative">
+<table id = "providedlead_table">
+	<thead class="tab_bar">
+		<tr role="row">	
+			<th rowspan="1" colspan="1">
+			<div class="sort_param" id="title" {% if next_sorting_title %}alt="{{next_sorting_title}}"{% else %}alt="asc"{% endif %} > 
+				<span class="fl">{% trans "Lead" %}</span><span {% if sort_order_title == 'asc'%}class="sorting_top"{% elif sort_order_title == 'desc' %}class="sorting_bottom"{% else %}class=""{% endif %} style=""></span>
+			</div></th>
+			<th class="" rowspan="1" colspan="1">
+			<div class="sort_param" id="leads_left" {% if next_sorting_leadsleft %}alt="{{next_sorting_leadsleft}}"{% else %}alt="asc"{% endif %}>
+				<span class="fl" {% if request.LANGUAGE_CODE == 'sv' %} style=" min-width: 75px;" {% endif %}>{% trans "Leads left" %}</span><span {% if sort_order_leadsleft == 'asc'%}class="sorting_top"{% elif sort_order_leadsleft == 'desc' %}class="sorting_bottom"{% else %}class=""{% endif %} style=""></span>
+			</div></th>
+			<th class="" rowspan="1" colspan="1">
+			<div class="sort_param" id="leads_id" {% if next_sorting_id %}alt="{{next_sorting_id}}"{% else %}alt="asc"{% endif %}>
+				<span class="fl">{% trans "Id" %}</span><span {% if sort_order_id == 'asc'%}class="sorting_top"{% elif sort_order_id == 'desc' %}class="sorting_bottom"{% else %}class=""{% endif %} style=""></span>
+			</div></th>
+			<th class="" rowspan="1" colspan="1">
+			<div class="sort_param" id="created" {% if next_sorting_date %}alt="{{next_sorting_date}}"{% else %}alt="asc"{% endif %}>
+				<span class="fl">{% trans "Date" %}</span><span {% if sort_order_date == 'asc'%}class="sorting_top"{% elif sort_order_date == 'desc' %}class="sorting_bottom"{% else %}class=""{% endif %} style=""></span>
+			</div></th>
+			<th class="" rowspan="1" colspan="1">
+			<div class="sort_param" id="lead_status" {% if next_sorting_status %}alt="{{next_sorting_status}}"{% else %}alt="asc"{% endif %}>
+				<span class="fl">{% trans "Status"%}</span><span {% if sort_order_leadstatus == 'asc'%}class="sorting_top"{% elif sort_order_leadstatus == 'desc' %}class="sorting_bottom"{% else %}class=""{% endif %} style=""></span>
+			</div></th>
+			<th class="" rowspan="1" colspan="1">
+			<div class="sort_param" id="lead_price" {% if next_sorting_price %}alt="{{next_sorting_price}}"{% else %}alt="asc"{% endif %}>
+				<span class="fl">{% trans "Price"%}</span><span {% if sort_order_price == 'asc'%}class="sorting_top"{% elif sort_order_price == 'desc' %}class="sorting_bottom"{% else %}class=""{% endif %} style=""></span>
+			</div></th>
+			<th class="" rowspan="1" colspan="1">
+			<div class="">
+				<input id="delete_all" type="checkbox" class="mySelectAll" name="list" value="">
+			</div></th>
+		</tr>
+	</thead>
+	
+	<tbody>
+		{% for provided in providedlead  %}
+		<tr class="lead_link">
+			<td class="link" title="{{provided.lead.title}}"><a href="">{{ provided.lead.title|truncatechars:35  }}</a></td>
+			<td class="cols2">{{ provided.lead.available }}/{{ provided.lead.total }}</td>
+			<td class="cols3">{{ provided.lead.id }}</td>
+			<td class="cols3">{{ provided.lead.created|date:"Y-m-d" }}</td>
+			<td class="cols3 lead_status">
+			{% if provided.lead.active %}
+				{% trans provided.lead.get_status_display %}
+			{% else %}
+			      {% if provided.lead.get_inactive_reason_display %}
+				{% trans provided.lead.get_inactive_reason_display %}
+			      {% endif %}
+			{% endif %}
+			</td>
+			<td class="cols3">{{provided.lead.price_currency}} {{provided.lead.price_currency|upper}}</td>
+			<td>
+			<input type="hidden" name ="lead_id"  value="" />
+			</a>
+			{% if provided.lead.active %}
+			<input type="checkbox" value="{{provided.lead_id}}" data-leadeditlink="/leads/edit_leads/{{provided.lead_id}}" name="delete" class="checkbox_edit_act edit_lead_url_act">
+			{% else %}
+			<img src="{% static "img/active_icon.png"%}?version={{version}}" />
+			{% endif %}
+			</td>
+		</tr>
+	 {% endfor %}
+	</tbody>
+	
+</table>	
+</div><!--for showing help text-->
+{% endif %}
+</body>
+</html>

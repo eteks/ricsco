@@ -274,3 +274,27 @@ def leadSave(request):
     #     # print 'transaction committed'
     #     transaction.commit()
     return HttpResponseRedirect('/dashboard/providedlead/')
+
+@login_required
+def edit_leads(request, pk):
+    actor = request.user.actor
+    if not actor.is_sellerregistered:
+        return HttpResponseRedirect(reverse('providedlead'))
+    
+    try:
+        lead = actor.actorprovidedlead_set.get(lead__id=int(pk)).lead
+
+        if lead.keywords:
+            keywords = ','.join([kw.name for kw in lead.keywords.all()])
+        else:
+            keywords = ''
+        leadcategory = LeadCategory.objects.order_by('name')
+        return render_to_response('dashboard/edit_new_leads.html', {
+                                    'keywords':keywords, 'leads':lead, 'consumer':lead.consumer, 
+                                    'consumeraddress': lead.consumer.address,
+                                    'consumercompany': lead.consumer.company, 
+                                    'companyaddress': lead.consumer.company.address,
+                                    'leadcategory': leadcategory,'selectedcategory':lead.category,
+                                },context_instance=RequestContext(request))
+    except:
+        return HttpResponseRedirect('/dashboard/providedlead/')

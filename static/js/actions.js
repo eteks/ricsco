@@ -368,8 +368,8 @@ $(document).ready(function() {
     $('#filter_rank, #filter_budget, #filter_deal_time, #filter_price_range, #filter_rating').attr("readonly", true);
 
     $(window).load(function (){
-        $(".infield").inFieldLabels();
-        $(".infield_p").inFieldLabels();
+        // $(".infield").inFieldLabels();
+        // $(".infield_p").inFieldLabels();
         $('#latest_lead_thumbnail > .leads_thumbnail_content:last, #latest_requestlead_thumbnail > .leads_thumbnail_content:last').addClass('last');
          var theHeight = $(".seller_logo img").height();
          var theWidth = $(".seller_logo img").width();
@@ -1707,197 +1707,12 @@ $(function() {
 
             }
 
-            var smonth = 2 //start-month, start-year
-            $( ".rank" ).slider({     
-                        range: true,
-                        min: 0,
-                        max: 5,
-                        step:1, 
-                        values:[r_start,r_end],
-                        slide: function( event, ui ) {
-                                    $( "#filter_rank" ).val( ui.values[ 0.0 ] + gettext(" to ") + (ui.values[ 1.0 ]));
-                        },
-                        change:function(event, ui){
-                                    $('[name=ranking_start]').val(ui.values[ 0 ]);
-                                    $('[name=ranking_end]').val(ui.values[ 1 ]);
-                                    perform_search();
-                        }
-            });
+           
 
-            $( "#filter_rank" ).val( $( ".rank" ).slider( "values", 0.0 ) + gettext(" to ") + $( ".rank" ).slider( "values", 1.0 ) );
-
-                        $( ".budget" ).slider({
-
-                          range: true,
-
-                          min: 0,
-
-                          max: 1000000,
-
-                          step: 50,
-
-                          values: [ b_start, b_end ],
-
-                          slide: function( event, ui ) {
-
-                           $( "#filter_budget" ).val( ui.values[ 0 ] + gettext(" to ") + ui.values[ 1 ] + " SEK");
-
-                          },
-
-                          change:function(event, ui){
-
-                           $('[name=budget_start]').val(ui.values[ 0 ]);
-
-                           $('[name=budget_end]').val(ui.values[ 1 ]);
-
-                           perform_search();
-
-                          }
-
-             });                  
-
+            
  
 
-            $( "#filter_budget" ).val( $( ".budget" ).slider( "values", 0 ) +
-            gettext(" to ") + $( ".budget" ).slider( "values", 1 ) + " SEK" );         
-
-            $( ".time" ).slider({
-
-            range: true,
-
-            min: 0,
-
-            max: 20,
-
-            step: 1,
-
-            values: [ d_start, d_end ],
-
-            slide: function( event, ui ) {
-
-            $( "#filter_deal_time" ).val( ui.values[ 0 ] + gettext(" to ") + ui.values[ 1 ] + gettext(" weeks"));
-
-            },
-
-            change:function(event, ui){
-
-            var day_start = parseInt(ui.values[ 0 ]) * 7;
-
-            var day_end = parseInt(ui.values[ 1 ]) * 7;
-
-           
-
-            var date_start = new Date();
-
-            var date_end = new Date();
-
-           
-
-            date_start.setDate(date_start.getDate()+day_start);
-
-            date_end.setDate(date_end.getDate()+day_end);
-
-           
-
-                                    if(day_start > 0){
-
-                                    $('[name=deal_start]').val((date_start.getMonth()+1) + '-' + date_start.getDate() + '-' + date_start.getFullYear());
-
-                                    }else{
-
-                                    $('[name=deal_start]').val('');
-
-                                    }
-
-                                    if(day_end > 0){
-
-                                    $('[name=deal_end]').val((date_end.getMonth()+1) + '-' + date_end.getDate() + '-' + date_end.getFullYear());
-
-                                    }else{
-                                    $('[name=deal_end]').val('');
-                                    }
-                                    perform_search();
-
-                        }
-
-            });
-
-            $( "#filter_deal_time" ).val( $( ".time" ).slider( "values", 0 ) +
-
-            gettext(" to ") + $( ".time" ).slider( "values", 1 ) + gettext(" weeks") );
-
-           
-
-            $( ".price" ).slider({
-
-            range: true,
-
-            min: 0,
-
-            max: 1000,
-
-            step: 10,
-
-            values: [ p_start, p_end ],
-
-            slide: function( event, ui ) {
-
-            $( "#filter_price_range" ).val( ui.values[ 0 ] + gettext(" to ") + ui.values[ 1 ] + " SEK");
-
-            },
-
-            change:function(event, ui){
-
-            $('[name=price_start]').val(ui.values[ 0 ]);
-
-            $('[name=price_end]').val(ui.values[ 1 ]);
-
-            perform_search();
-
-            }
-
-            });
-
-            $( "#filter_price_range" ).val( $( ".price" ).slider( "values", 0 ) +
-
-            gettext(" to ") + $( ".price" ).slider( "values", 1 ) + " SEK" ); 
-
-                                   
-
-            $( ".rating_act" ).slider({
-
-            range: true,
-
-            min: 0,
-
-            max: 5,
-
-            values: [ rat_start, rat_end ],
-
-            step: 1,
-
-            slide: function( event, ui ) {
-
-            $( "#filter_rating" ).val( ui.values[ 0.0 ] + gettext(" to ") + ui.values[ 1.0 ] );
-
-            },
-
-            change:function(event, ui){
-
-            $('[name=rating_start]').val(ui.values[ 0 ]);
-
-            $('[name=rating_end]').val(ui.values[ 1 ]);
-
-            perform_search();
-
-            }
-
-            });
-
-            $( "#filter_rating" ).val( $( ".rating" ).slider( "values", 0.0 ) +
-
-            gettext(" to ") + $( ".rating" ).slider( "values", 1.0 ) ); 
-
+     
            
 
             $( "#slider-range a:last, #slider-range1 a:last, #slider-range2 a:last, #slider-range3 a:last, #slider-range4 a:last").addClass("slider_right");
