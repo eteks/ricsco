@@ -46,3 +46,6 @@ a {
 .error_label {
     color: red;
 }
+.btn:hover {
+    cursor : pointer;
+}

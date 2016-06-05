@@ -17,6 +17,17 @@ def remove_none(field, empty_str=''):
         pass
     return field
 
+def make_uuid():
+    return str(uuid.uuid4().hex)
+
+def generatePassword():
+    """ Generate random password
+    """
+    random.seed = (os.urandom(1024))
+    pwd = random.choice(string.ascii_lowercase)
+    pwd += random.choice(string.ascii_lowercase)
+    return '%s%04d' % (pwd, random.randrange(1, 9999))
+
 def format_redirect_url(redirect_path, query_string):
     ''' utility to format redirect url with fixido query string
     '''

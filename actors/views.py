@@ -3,6 +3,17 @@ import time
 import math
 import logging
 
+# from django.core.mail import EmailMessage
+# from django.template import Context
+# from django.template.loader import render_to_string, get_template
+from django.shortcuts import render
+from django.template.loader import render_to_string, get_template
+from django.core.mail import EmailMessage
+from django.template import Context
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+from django.core.mail import EmailMultiAlternatives
+
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render_to_response
 from django.core.urlresolvers import reverse
@@ -16,6 +27,7 @@ from django.conf import settings
 from ricsco.util import *
 from models import *
 from actors.models import *
+# from templated_email import send_templated_mail
 from django import forms
 from django.contrib import messages
 from django.contrib.auth.tokens import default_token_generator
@@ -149,7 +161,10 @@ def create_new_user(request):
             # actor.language = get_global_language(request)
             # pwd = generatePassword()
             # actor.set_password(pwd)
-            
+            pwd = generatePassword()
+            actor.set_password(pwd)
+            current_site = get_current_site(request)
+            confirmation_keyy = actor.confirmation_key
             actor.company = company
             actor.address = address
             # actor.currency = request.POST.get('currency', 
@@ -164,9 +179,95 @@ def create_new_user(request):
             #     actor.signup_method = 'Registration_3'
             # else:
             #     actor.signup_method = 'Website'
+
             actor.save()
             response = render_to_response('dashboard/joinuslanding_new.html')
+            user = authenticate(username=email, password=pwd)
+            login(request, user)
+            response = HttpResponseRedirect(settings.LOGIN_REDIRECT_URL)
+            try:
+               
+                # send_templated_mail(
+                #     template_name = 'welcome',
+                #     subject = 'Welcome to Ricsco.com',
+                #     from_email = settings.DEFAULT_FROM_EMAIL,
+                #     recipient_list = [email,],
+                #     bcc = settings.INFO_EMAIL_BCC,
+                #     context={
+                #              'actor': actor,
+                #              'current_site': current_site,
+                #              'confirmation_keyy': confirmation_keyy,
+                #              'email': email,
+                #              'password': pwd,
+                #              'version' : settings.STATIC_VERSION,
+                #     },
+                # )
+                # print "try"
+                # send_templated_mail(
+                #     template_name = 'welcome',
+                #     subject = 'Welcome to Fixido.com',
+                #     from_email = settings.DEFAULT_FROM_EMAIL,
+                #     recipient_list = [email,],
+                #     bcc = settings.INFO_EMAIL_BCC,
+                #     context={
+                #              'actor': actor,
+                #              'current_site': current_site,
+                #              'confirmation_keyy': confirmation_keyy,
+                #              'email': email,
+                #              'password': pwd,
+                #              # 'version' : settings.STATIC_VERSION,
+                #     },
+                # )
 
+
+
+
+
+
+                
+
+                # subject, from_email, to = 'hello', 'sweetkannan05@gmail.com', 'shivaramcse05@gmail.com'
+                # text_content = 'This is an important message.'
+                # html_content = '<p> <b>This</b> <a href="www.google.com">is</a> an <strong>important</strong> message.</p>'
+                # msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+                # msg.attach_alternative(html_content, "text/html")
+                # msg.send()
+                # # print '>>>>>>>', msg1
+
+                htmly     = get_template('welcome.html')
+
+                d = Context({ 'confirmation_keyy': confirmation_keyy, 'actor': actor, 'email': email, 'password': pwd, 'current_site': current_site,})
+
+                subject, from_email, to = 'hello', settings.DEFAULT_FROM_EMAIL, email
+                # text_content = plaintext.render(d)
+                html_content = htmly.render(d)
+                text_content = 'Welcome to Ricsco.'
+                msg = EmailMultiAlternatives(subject,text_content, from_email, [to])
+                msg.attach_alternative(html_content, "text/html")
+                # msg.send()
+                # print '>>>>>>>>>>>>', msg
+
+
+                # # username1=email
+                # template = get_template('welcome.html')
+                # context = Context({
+                #     "actor": actor,
+                #     "current_site": current_site,
+                #     "confirmation_keyy": confirmation_keyy,
+                #     "email": email,
+                #     "password": pwd,                     
+                #     # 'version' : settings.STATIC_VERSION,
+                # }) 
+
+                # content = strip_tags(template.render(context))
+                # msg = EmailMessage("New signup form submission", content, to=[email])
+                # msg.content_subtype = "text/html"
+                # msg.send()
+                # print '>>>>>>>>>>>>>>',content
+
+
+            except Exception, e:
+                print "exception"
             
     #     caddress = CompanyAddress()
     #     caddress.street = request.POST.get('company_street', '')

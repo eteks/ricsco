@@ -120,7 +120,11 @@ ACTIVE_STATUS = (
     ('active', _('Active')),
     ('inactive', _('Inactive')),
 )
-
+def create_actor_number():
+    try:
+        return int(LeadCategory.objects.order_by('-id')[0].category_number) + 1000
+    except:
+        return 1000
 class LeadManager(models.Manager):
     def get_query_set(self):
         return (super(LeadManager, self).get_query_set().order_by('title'))
@@ -569,12 +573,6 @@ class LeadCategory(models.Model):
   name = models.CharField(max_length=128)
   parent = models.ForeignKey('self', null=True, blank=True)  
   objects = LeadCategoryManager()
-  def create_actor_number():
-      try:
-          return int(LeadCategory.objects.order_by('-id')[0].category_number) + 1000
-      except:
-          return 1000
-  
   category_number = models.CharField(max_length=128, default=create_actor_number, editable=True, help_text="automatically create category no used for api reference")
   def __unicode__(self):
     return self.name

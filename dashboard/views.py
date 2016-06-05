@@ -29,7 +29,6 @@ from control.models import Tempdata
 
 logger = logging.getLogger('myapplog')
 def start_new(request): 
-  print "test"
   return render_to_response('dashboard/joinuslanding_new.html',
     context_instance=RequestContext(request))
        

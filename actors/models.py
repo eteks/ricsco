@@ -6,6 +6,7 @@ from django.db.models.signals import pre_save, post_save
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
 # from django.conf import settings
+from ricsco.util import *
 
 from core.config import COUNTRIES, LANGUAGES
 from reviews.models import Rating, Review
@@ -284,7 +285,7 @@ class Actor(User):
   # secret_key = models.CharField(max_length=128, default=make_uuid, help_text="Actor unique secret key used to identify the Actor in API calls")
   # access_key = models.CharField(max_length=128, default=make_uuid, help_text="Actor unique access key used to identify the Actor in API calls")
 
-  # confirmation_key = models.CharField(max_length=128, default=make_uuid, help_text="Registered user validate email")
+  confirmation_key = models.CharField(max_length=128, default=make_uuid, help_text="Registered user validate email")
   email_confirmation = models.BooleanField(default=False, help_text="To Check if User validated email")
     
   type = models.CharField(max_length=128, default='', blank=True, help_text="NOT IN USE")
