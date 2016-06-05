@@ -18,6 +18,7 @@ urlpatterns = [
     url(r'^(?i)logout/$', 'actors.views.logout_view', name='logout_view'),
     url(r'^(?i)create_user/$', 'actors.views.create_new_user', name='createNewUser'),
     url(r'^(?i)dashboard/', include('dashboard.urls')),
-    url(r'^admin/', include(admin.site.urls))
+    url(r'^admin/', include(admin.site.urls)),
+    url(r'^(?i)leads/', include('leads.urls')),
 
 ]

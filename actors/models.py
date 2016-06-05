@@ -6,9 +6,14 @@ from django.db.models.signals import pre_save, post_save
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
 # from django.conf import settings
+<<<<<<< HEAD
 from ricsco.util import *
 
 from core.config import COUNTRIES, LANGUAGES
+=======
+from actors.templatetags import ricsco_tags
+from core.config import COUNTRIES, LANGUAGES, COUNTRIES_DICT
+>>>>>>> e8b995dd3fb379789fb44f7ba50e99e1dc49c391
 from reviews.models import Rating, Review
 from ranks.models import Ranking
 
@@ -119,36 +124,36 @@ class AddressAbstract(models.Model):
       return "/".join([self.region, self.country])
 
 
-  # def get_address_text(self):
-  #   address_text = []
+  def get_address_text(self):
+    address_text = []
 
-  #   if self.street:
-  #     address_text.append(self.street)
+    if self.street:
+      address_text.append(self.street)
 
-  #   if self.city:
-  #     address_text.append(self.city)
+    if self.city:
+      address_text.append(self.city)
 
-  #   if self.state:
-  #     address_text.append(self.state)
+    if self.state:
+      address_text.append(self.state)
 
-  #   if self.region and (not self.city) and (not self.state):
-  #     address_text.append(self.region)
+    if self.region and (not self.city) and (not self.state):
+      address_text.append(self.region)
 
-  #   if self.postal_code:
-  #     address_text.append(self.postal_code)
+    if self.postal_code:
+      address_text.append(self.postal_code)
 
-  #   if self.country:
-  #     if self.country in COUNTRIES_DICT:
-  #       address_text.append(COUNTRIES_DICT[self.country])
-  #     else:
-  #       address_text.append(self.country)
+    if self.country:
+      if self.country in COUNTRIES_DICT:
+        address_text.append(COUNTRIES_DICT[self.country])
+      else:
+        address_text.append(self.country)
 
-  #   if address_text:
-  #     address_text =  ', '.join(address_text)
-  #     if isinstance(address_text, unicode):
-  #       return address_text.encode('utf-8') 
+    if address_text:
+      address_text =  ', '.join(address_text)
+      if isinstance(address_text, unicode):
+        return address_text.encode('utf-8') 
 
-  #   return None
+    return None
 
   @property
   def full_location(self):
@@ -165,7 +170,7 @@ class AddressAbstract(models.Model):
     if self.region and self.city.lower() != self.region.lower():
       result.append(self.region)
     if self.country:
-      result.append(fixido_tags.country_name(self.country))
+      result.append(ricsco_tags.country_name(self.country))
     return ', '.join(result)
 
 class ActorAddress(AddressAbstract):

@@ -495,8 +495,8 @@ def create_worker_task(sender, instance, created, **kwargs):
   if instance.isactive() and instance.created.date() > create_task_from.date():
     WorkerNoticeEmailTask.create(instance)
   
-pre_save.connect(lead_save, sender=Lead)
-post_save.connect(create_worker_task, sender=Lead)
+# pre_save.connect(lead_save, sender=Lead)
+# post_save.connect(create_worker_task, sender=Lead)
 
 
 class LeadStatistics(models.Model):

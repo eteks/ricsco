@@ -1,0 +1,334 @@
+{% extends "addlead_base.html" %}
+{% load i18n ricsco_tags %}
+{% block content %}
+<h2>{% trans "Edit general information" %}</h2>
+<table>
+<tr>
+  <td><input type="hidden" name = "txthidden" value = "{{leads.id}}">
+  <label>{% trans "Lead title" %}</label>                  
+  <td><input type="text" class="input_l" value="{{leads.title}}" name="lead_title" id="leadtitle" maxlength='256' />
+</tr>
+<tr>
+  <td><label>{% trans "Description" %}</label>
+  <td><textarea name ="lead_description"> {{leads.description}} </textarea>
+</tr>                   
+<tr>
+  <td><label>{% trans "Language" %}</label>
+  <td><div class="custom_select fl add_lead_custom_select">
+                           
+   
+    <select name="language" class="custom_select_value_act">
+        {% if leads.language == 'None' or not leads.language %}
+          <option value="" selected="selected"></option>
+        {% endif %}
+                                        
+        
+        {% if leads.language == 'da' %}
+          <option value="da" selected="selected">{% trans "Danish" %}</option>
+        {% else %}
+          <option value="da">{% trans "Danish" %}</option>
+        {% endif %}
+        
+        {% if leads.language == 'en' %}
+          <option value="en" selected="selected">{% trans "English" %}</option>
+        {% else %}
+          <option value="en">{% trans "English" %}</option>
+        {% endif %}
+        
+        {% if leads.language == 'fi' %}
+          <option value="fi" selected="selected">{% trans "Finish" %}</option>
+        {% else %}
+          <option value="fi">{% trans "Finish" %}</option>
+        {% endif %}
+        
+        {% if leads.language == 'fr' %}
+          <option value="fr" selected="selected">{% trans "French" %}</option>
+        {% else %}
+          <option value="fr">{% trans "French" %}</option>
+        {% endif %}
+        
+        {% if leads.language == 'de' %}
+          <option value="de" selected="selected">{% trans "German" %}</option>
+        {% else %}
+          <option value="de">{% trans "German" %}</option>
+        {% endif %}
+        
+        {% if leads.language == 'it' %}
+          <option value="it" selected="selected">{% trans "Italian" %}</option>
+        {% else %}
+          <option value="it">{% trans "Italian" %}</option>
+        {% endif %}
+        
+        {% if leads.language == 'nn' %}
+          <option value="nn" selected="selected">{% trans "Norwegian" %}</option>
+        {% else %}
+          <option value="nn">{% trans "Norwegian" %}</option>
+        {% endif %}
+        
+        {% if leads.language == 'pl' %}
+          <option value="pl" selected="selected">{% trans "Polish" %}</option>
+        {% else %}
+          <option value="pl">{% trans "Polish" %}</option>    
+        {% endif %}
+        
+        {% if leads.language == 'pt' %}
+          <option value="pt" selected="selected">{% trans "Portuguese" %}</option>
+        {% else %}
+          <option value="pt">{% trans "Portuguese" %}</option>
+        {% endif %}
+        
+        {% if leads.language == 'ru' %}
+          <option value="ru" selected="selected">{% trans "Russian" %}</option>
+        {% else %}
+          <option value="ru">{% trans "Russian" %}</option>
+        {% endif %}
+        
+        {% if leads.language == 'es' %}
+          <option value="es" selected="selected">{% trans "Spanish" %}</option>
+        {% else %}
+          <option value="es">{% trans "Spanish" %}</option>
+        {% endif %}
+        
+        {% if leads.language == 'sv' %}
+          <option value="sv" selected="selected">{% trans "Swedish" %}</option>
+        {% else %}
+          <option value="sv">{% trans "Swedish" %}</option>
+        {% endif %}
+    </select>
+   </div><!-- custom_select-country -->
+ </tr> 
+<tr>                    
+   <td><label>{% trans "Categories" %}</label>
+   <td><div class="custom_select fl add_lead_custom_select">      
+        <select id="leadcategory1" name="lead_category" data-default="Drop Down" class="custom_select_value_act">
+            {% for cat in leadcategory %}                           
+            <option value="{{cat.id}}" {% ifequal cat.id selectedcategory.id %}selected='selected'{% endifequal %}>{% trans cat.name %}</option>
+            {% endfor %}
+        </select>                       
+    </div><!-- custom_select-country -->
+ </tr>   
+ <tr>                   
+    <td><label>{% trans "Keywords" %}</label>         
+    <td><div class="location_filter">
+    <div class="location_holder fl">
+        <input type="text" class="location input_l" value="{{keywords}}" name="lead_keywords">
+    </div><!--location_holder-->
+    </div>
+</tr>
+<tr>
+  <td><label>{% trans "From" %}</label>
+  <td><input type="text" id="from_lead" class="custom_input fl" value="{{ leads.deal_starts|date:"m-d-Y" }}" name="lead_deal_starts" title="" />
+  <div id="calenders"> </div>
+  <td><label>{% trans "To" %}</label>
+  <td><input type="text" id="to_lead" class="custom_input fl" value="{{leads.deal_ends|date:"m-d-Y" }}" name="lead_deal_ends" title="" />
+ </tr>
+<tr>         
+   <td><label>{% trans "Price" %}</label>
+   <td><input type="text" class="custom_input custom_input_s pr_sep_act" id="leadprice" value="{{leads.price|safe}}" name="lead_price" title="" maxlength='13' />
+   <span class="picker">{{ACTOR_CURRENCY}}</span>
+</tr> 
+<tr>
+   <td><label>{% trans "Available" %}</label>
+   <td><input type="text" class="custom_input custom_input_s" id="leadavailable" value="{{leads.sale}}" name="lead_available" title="" maxlength='3' />
+   <td><span class="picker picker_leads">{% trans "Leads" %}</span>
+</tr>
+<tr>                  
+   <td><label>{% trans "Pre sold slots" %}</label>
+   <td><input type="text" class="custom_input custom_input_s" id="pre_sold" value="{{leads.pre_sold}}" name="pre_sold" title="" maxlength='3' />
+   <td><span class="picker picker_leads">{% trans "Leads" %}</span>
+</tr>   
+<tr>                  
+   <td><label>{% trans "Budget" %}</label>
+   <td><input type="text" class="custom_input custom_input_s pr_sep_act" value="{{leads.budget|safe}}" name="lead_budget" title=""  maxlength='13' />
+   <td><span class="picker">{{ACTOR_CURRENCY}}</span>
+</tr>   
+<tr>                  
+   <td><label>{% trans "Generation method" %}</label>
+   <td><select value="" name="generation_method" data-default="Drop Down"  class="gen_method_change">
+      <option value="online" {% ifequal leads.generation_method "online" %} selected='selected' {% endifequal %}>{% trans "Online" %}</option>
+      <option value="phone" {% ifequal leads.generation_method "phone" %} selected='selected' {% endifequal %}>{% trans "Phone" %}</option>
+    </select>
+</tr>   
+<tr>                  
+   <td><label>{% trans "Generation source" %}</label>
+   <td><input type="text" class="custom_input custom_input_s pr_sep_act" value="{{leads.generation_source|safe}}" name="generation_source" title="" />
+</tr>   
+<tr>                  
+   <td><label>{% trans "Status" %}</label>
+   <td><select value="" name="status_change" data-default="Drop Down"  class="lead_status_change">
+    <option value="test" {% ifequal leads.status "test" %} selected='selected' {% endifequal %}>{% trans "Test" %}</option>
+    <option value="active" {% ifequal leads.status "active" %} selected='selected' {% endifequal %}>{% trans "Active" %}</option>
+    <option value="inactive" {% ifequal leads.status "inactive" %} selected='selected' {% endifequal %}>{% trans "Inactive" %}</option>
+  </select>
+</tr>   
+<tr>                  
+   <td><label>{% trans "Accept campaign" %}</label>
+   <td><select value="" name="accept_campaign" data-default="Drop Down"  class="accept_campaign_change">
+      <option value="1" {% ifequal leads.accept_campaign 1 %} selected='selected' {% endifequal %}>{% trans "True" %}</option>
+      <option value="0" {% ifequal leads.accept_campaign 0 %} selected='selected' {% endifequal %}>{% trans "False" %}</option>
+    </select>
+</tr>   
+<tr>                  
+   <td><label>{% trans "Reinquire lead" %}</label>
+   <td><select value="" name="reinquire_lead" data-default="Drop Down"  class="accept_campaign_change">
+    <option value="1" {% ifequal leads.reinquire 1 %} selected='selected' {% endifequal %}>{% trans "True" %}</option>
+    <option value="0" {% ifequal leads.reinquire 0 %} selected='selected' {% endifequal %}>{% trans "False" %}</option>
+  </select>
+</tr>   
+</table>
+<h2>{% trans "Edit consumer information" %}</h2>
+<table>
+<tr>        
+  <td><label>{% trans "First name" %}</label>
+  <td><input type="text" class="input_m fl" value="{{consumer.first_name}}" name="consumer_first_name" title="" maxlength='256' /><code class="secure_info_icon fl"></code><span class="fl secure_info_msg">{% trans "This information will be visible only when the lead is sold" %}.</span>
+</tr>                
+<tr>
+  <td><label>{% trans "Last name" %}</label>
+  <td><input type="text" class="input_m fl" value="{{consumer.last_name}}" name="consumer_last_name" title="" maxlength='256' /><code class="secure_info_icon fl"></code><span class="fl secure_info_msg">{% trans "This information will be visible only when the lead is sold" %}.</span>
+</tr>                
+<tr>
+  <td><label>{% trans "Email" %}</label>
+  <td><input type="text" class="input_m fl" id="consumeremail" value="{{consumer.email}}" name="consumer_email" title="" maxlength='75' /><code class="secure_info_icon fl"></code><span class="fl secure_info_msg">{% trans "This information will be visible only when the lead is sold" %}.</span>
+</tr>                
+<tr>
+  <td><label>{% trans "Skype id" %}</label>
+  <td><input type="text" class="input_m fl" value="{{consumer.skype}}" name="consumer_skype" title="" maxlength='128' /><code class="secure_info_icon fl"></code><span class="fl secure_info_msg">{% trans "This information will be visible only when the lead is sold" %}.</span>
+</tr>                
+<tr>
+  <td><label>{% trans "Phone number" %}</label>
+  <td><input type="text" class="input_m fl" id="consumerphonenumber" value="{{consumer.phone_number}}" name="consumer_phone_number" title="" maxlength='32' /><code class="secure_info_icon fl"></code><span class="fl secure_info_msg">{% trans "This information will be visible only when the lead is sold" %}.</span>
+</tr>                
+<tr>
+  <td><label>{% trans "Address" %}</label>
+  <td><textarea class="input_m" id="consumeraddress_addressid" value ="{{consumer.address.street}}" name ="consumeraddress_address">{{consumeraddress.street|default_if_none:""}}</textarea>
+</tr>                
+<tr>
+  <td><label>{% trans "Postal code" %}</label>
+  <td><input type="text" class="input_m" value="{{consumeraddress.postal_code}}"  name="consumeraddress_postal_code" title="" maxlength='32' />
+</tr>                
+<tr>
+  <td><label>{% trans "City" %}</label>
+  <td><input type="text" class="input_m" value="{{consumer.address.city}}" name="consumeraddress_city" title="" maxlength='128' />
+</tr>                
+<tr>
+  <td><label>{% trans "Region" %}</label>
+  <td><input type="text" class="input_m" value="{{consumer.address.region}}" name="consumeraddress_region" title="" maxlength='128' />
+</tr>                
+<tr>
+  <td><label>{% trans "Country" %}</label>
+  <td><select name="consumeraddress_country" id="consumeraddress_country" class="profile_custom_select_value_act">
+  {{consumer.address.country|countries_as_option|safe}}
+  </select>
+</tr>                
+<tr>
+  <td><label>{% trans "Title" %}</label>
+  <td><select name="consumer_title" data-default="Drop Down" class="custom_select_value_act">
+      <option value="" name ="">{% trans "Title" %}</option>
+      <option value="Mr"  {% ifequal consumer.title 'Mr'%}selected='selected'{% endifequal %}>Mr</option>
+      <option value="Mrs"  {% ifequal consumer.title 'Mrs'%}selected='selected'{% endifequal %}>Mrs</option>
+  </select>   
+</tr>                
+<tr>
+  <td><label>{% trans "Gender" %}</label>
+  <td><select name="consumer_gender" data-default="Drop Down" class="custom_select_value_act">
+      <option value="">{% trans "Gender" %}</option>
+      <option value="Male" {% ifequal consumer.gender 'Male' %}selected='selected'{% endifequal %}>{% trans "Male" %}</option>
+      <option value="Female" {% ifequal consumer.gender 'Female' %}selected='selected'{% endifequal %}>{% trans "Female" %}</option>
+  </select>                       
+</tr>                
+<tr>
+  <td><label>{% trans "Alternative phone number" %}</label>
+  <td><input type="text" class="input_m fl" value="{{consumer.alt_phone_number}}" name="consumer_alt_phone_number" title="" maxlength='32' /><code class="secure_info_icon fl"></code><span class="fl secure_info_msg">{% trans "This information will be visible only when the lead is sold" %}.</span>
+</tr>                
+<tr>
+  <td><label>{% trans "Best contact time" %}</label>
+  <td><input type="text" class="input_m" value="{{consumer.best_call_time}}" name="consumer_best_call_time" title="" maxlength='16' />
+</tr>                
+<tr>
+  <td><label>{% trans "Preferred time" %}</label>
+  <td><input type="text" class="input_m" value="{{consumer.preferred_method}}" name="consumer_preferred_method" title="" />
+</tr>                
+<tr>
+  <td><label>SSN</label>
+  <td><input type="text" class="input_m fl" value="{{consumer.ssn}}" name="consumer_ssn" title="" maxlength='32' /><code class="secure_info_icon fl"></code><span class="fl secure_info_msg">{% trans "This information will be visible only when the lead is sold" %}.</span>
+</tr>                
+<tr>
+  <td><label>{% trans "Date of birth" %}</label>
+  <td><input type="text" class="input_m" value="{{consumer.date_of_birth|date:"m-d-Y"}}" name="consumer_date_of_birth" title="" />
+</tr>                
+<tr>
+  <td><label>{% trans "Language" %} </label>
+  <td><input type="text" class="input_m" value="{{consumer.language}}" name="consumer_language" title="" maxlength='8' />
+</tr>             
+</table>              
+<table>
+<h2>{% trans "Edit company information" %}</h2>
+<tr>
+  <td><label>{% trans "Company" %}</label>
+  <td><input type="text" class="input_m fl" value="{{consumer.company.name}}" name="companyabstract_name" title="" maxlength='256' /><code class="secure_info_icon fl"></code><span class="fl secure_info_msg">{% trans "This information will be visible only when the lead is sold" %}.</span>
+</tr>                
+<tr>
+  <td><label>{% trans "Phone number" %}</label>
+  <td><input type="text" class="input_m fl" value="{{consumer.company.phone_number}}" name="companyabstract_phoneno" title="" maxlength='32' /><code class="secure_info_icon fl"></code><span class="fl secure_info_msg">{% trans "This information will be visible only when the lead is sold" %}.</span>
+</tr>                
+<tr>
+  <td><label>{% trans "Email" %}</label>
+  <td><input type="text" class="input_m fl" value="{{consumer.company.email}}" name="companyabstract_email" title="" maxlength='75' /><code class="secure_info_icon fl"></code><span class="fl secure_info_msg">{% trans "This information will be visible only when the lead is sold" %}.</span>
+</tr>                
+<tr>
+  <td><label>CIN</label>
+  <td><input type="text" class="input_m fl" value="{{consumer.company.cin|default_if_none:""}}" name="companyabstract_cin" title="" maxlength='32' /><code class="secure_info_icon fl"></code><span class="fl secure_info_msg">{% trans "This information will be visible only when the lead is sold" %}.</span>
+</tr>                
+<tr>
+  <td><label>{% trans "Address" %}</label>
+  <td><textarea  class="input_m" id="companyaddress_addressid" name = "companyaddress_address" value ="{{consumer.company.address.street}}">{{companyaddress.street|default_if_none:""}}</textarea>
+</tr>                
+<tr>
+  <td><label>{% trans "Postal code" %}</label>
+  <td><input type="text" class="input_m" value="{{consumer.company.address.postal_code}}" name="companyaddress_postalcode" title="" maxlength='32' />
+</tr>                
+<tr>
+  <td><label>{% trans "City" %}</label>
+  <td><input type="text" class="input_m" value="{{consumer.company.address.city}}" name="companyaddress_city" title="" maxlength='128' />
+</tr>                
+<tr>
+  <td><label>{% trans "Country" %}</label>
+  <td><select value="" name="companyaddress_country" id="companyaddress_country" class="profile_custom_select_value_act">
+  {{'consumer.company.address.country'|countries_as_option|safe}}
+  </select>
+</tr>                
+<tr>
+  <td><label>{% trans "Website" %}</label>
+  <td><input type="text" class="input_m fl" value="{{consumer.company.website}}" name="companyabstract_website" title="" maxlength='200' /><code class="secure_info_icon fl"></code><span class="fl secure_info_msg">{% trans "This information will be visible only when the lead is sold" %}.</span>
+</tr>                
+<tr>
+  <td><label>{% trans "Alternative phone number" %}</label>
+  <td><input type="text" class="input_m fl" value="{{consumer.company.alt_phone_number}}" name="companyabstract_alt_phone_number" title=""  maxlength='32' /><code class="secure_info_icon fl"></code><span class="fl secure_info_msg">{% trans "This information will be visible only when the lead is sold" %}.</span>
+</tr>                
+<tr>
+  <td><label>{% trans "Industry" %}</label>
+  <td><input type="text" class="input_m" value="{{consumer.company.industry}}" name="consumercompany_industry" title="" maxlength='128' />
+</tr>                
+<tr>
+  <td><label>{% trans "No of employees" %}</label>
+  <td><input type="text" class="input_m fl" value="{{consumer.company.no_of_employees|default_if_none:""}}" name="consumercompany_no_of_employees" title="" maxlength='50' /><code class="secure_info_icon fl"></code><span class="fl secure_info_msg">{% trans "This information will be visible only when the lead is sold" %}.</span>
+</tr>                
+<tr>
+  <td><label>{% trans "Turn over" %}</label>
+  <td><input type="text" class="input_m" value="{{consumer.company.turn_over|default_if_none:""}}" name="consumercompany_turn_over" title="" maxlength='11' />
+</tr>                
+<tr>
+  <td><label>{% trans "Profit" %}</label>
+  <td><input type="text" class="input_m" value="{{consumer.company.profit|default_if_none:""}}" name="consumercompany_profit" title="" maxlength='11' />
+</tr>                
+<tr>
+  <td><label>{% trans "Currency" %}</label>
+  <td><input type="text" class="input_m" value="{{consumer.company.company_financial_data_currency}}" name="consumercompany_company_financial_data_currency" title="" maxlength='8' />
+</tr>                
+<tr>
+  <td><label>{% trans "More Infomation" %}</label>
+  <td><input type="text" class="input_m fl" value="" name="" title="" /><code class="secure_info_icon fl"></code><span class="fl secure_info_msg">{% trans "This information will be visible only when the lead is sold" %}.</span>
+</tr>
+</table>                    
+
+{% endblock %}

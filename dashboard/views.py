@@ -25,7 +25,7 @@ from django.utils.http import urlquote
 from django.views.decorators.csrf import csrf_exempt
 from actors.models import *
 from control.models import Tempdata
-
+from leads.models import *
 
 logger = logging.getLogger('myapplog')
 def start_new(request): 
@@ -254,15 +254,15 @@ def providedlead(request):
                "no_result_found":no_result_found, "providedlead":providedlead, 
             }, context_instance=RequestContext(request))    
 
-# @login_required
+@login_required
 def add_new_leads(request):
-    # if not request.user.actor.is_sellerregistered:
-    #     return HttpResponseRedirect(reverse('providedlead'))
+    if not request.user.actor.is_sellerregistered:
+        return HttpResponseRedirect(reverse('providedlead'))
     
-    # leadcategory = LeadCategory.objects.order_by('name')
-    # return render_to_response('dashboard/add_new_leads.html', {
-    #                                 'leadcategory':leadcategory, 
-    #                             },context_instance=RequestContext(request))
+    leadcategory = LeadCategory.objects.order_by('name')
+    return render_to_response('dashboard/add_new_leads.html', {
+                                    'leadcategory':leadcategory, 
+                                },context_instance=RequestContext(request))
 
-    return render_to_response('dashboard/add_new_leads.html',context_instance=RequestContext(request))
+
 

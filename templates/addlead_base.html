@@ -1,1 +1,5 @@
-add lead base
+<form method="post" id="addlead"  name="add_lead" action="/leads/leadSave/">
+{% csrf_token %}
+	{% block content %}{% endblock %}
+	<input type="submit" class="search_btn add_lead_enable_act"  value="Publish"/>
+</form>
