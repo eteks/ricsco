@@ -1,0 +1,52 @@
+{% load i18n %}
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>confirmation</title>
+		<style type="text/css">
+			span { display:block;}
+		</style>
+	</head>
+	<body>
+	<div style="width:750px; font-family: Arial; background: #f3f3f3 !important;">
+		<table width="619px" cellpadding="0" cellspacing="0" border="0" style="margin:40px auto;">
+	        <tr>
+				<td style="width: 615px; height:251px; background: #fff; padding:6px;">
+					<table class="background" style="padding-left: 23px;" width="100%" height="100%">
+						<tr>
+								
+							<td style='font-size: 14px; color:#000; line-height: 18px;'>
+								<h3 style="font-size: 16px;">Hello  {{actor.first_name}} {{actor.last_name}}</h3>
+
+								<p style="padding:8px 0px 4px;">We are thrilled to have you as a registered user and hope that you find our service beneficial.</p>
+
+								{% if password %}
+									<h3 style="font-size: 15px;">Login details</h3>
+									<p style="padding:8px 0px 4px;">E-mail: {{email}}</p>
+									<p style="padding:8px 0px 4px;">Password: {{password}}</p>
+								{% endif %}
+								
+								<p style="padding:8px 0px 4px;">Confirm your e-mail address by clicking <a href="www.google.com"> this link </a> </p>
+															
+						<p style="padding:8px 0px 4px;">If you have anyquestions, please<a href="{{ current_site }}/contact/">contact us.</a></p>
+								
+								<p style="padding:0px 0px 20px;">Thank you for joining Ricsco</p>
+								
+								<p><b>Sincerely,</b></p>
+								
+								<p>The Ricsco team</p>
+							</td>
+								
+						</tr>
+					</table>
+				</td>
+			</tr>   
+	    </table>
+	    <span class="subject" style='display: none;'>
+		 Welcome to Ricsco.com
+		</span>
+	</div>
+
+	</body>
+</html>
+

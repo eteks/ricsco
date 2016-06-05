@@ -1,0 +1,14 @@
+Content 1:
+
+Content 2: <a href="{{ current_site }}/activate/?cmky={{ confirmation_keyy }}&email={{email}}&la={{actor.language|lower}}">{{ current_site }}/activate/{{ confirmation_keyy }}/</a>
+
+
+Content 3: {{current_site}}
+
+
+
+Password : {{email}}
+
+
+
+Confirmation_key : {{confirmation_keyy}}
